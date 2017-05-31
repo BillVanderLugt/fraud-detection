@@ -26,6 +26,10 @@ def run_forest(X_train, X_test, y_train, y_test):
 
     print('feature importances', rf.feature_importances_)
 
+    # test prediciton
+    y_test_pred = rf.predict(X_test)
+    print('f1 test', f1_score(y_test, y_test_pred))
+
 
 
 
