@@ -1,6 +1,5 @@
 from flask import Flask, render_template, request
 import pickle
-import
 
 app = Flask(__name__)
 
@@ -31,6 +30,7 @@ def model_predict():
     fb_published = request.form['fb_published']
 
     X = 0
+    fm.main()
     with open('../model/final_model.pkl', 'rb') as pickle_file:
         model = pickle.load(pickle_file)
     y = model.predict(X)
