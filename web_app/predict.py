@@ -1,6 +1,20 @@
 from build_model import Model, get_data
 import pickle
 import pandas as pd
+import psycopg2
+
+conn = psycopg2.connect(dbname='eventdata', user='postgres', host='/tmp')
+c = conn.cursor()
+
+c.execute(
+    '''CREATE TABLE event_predicts
+
+
+    ;'''
+)
+
+conn.commit()
+conn.close()
 
 raw_data = pd.read_json('data/test_script_examples.json')
 line_num = 0
