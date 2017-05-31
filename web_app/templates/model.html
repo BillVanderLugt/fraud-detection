@@ -62,33 +62,37 @@
     <!-- Main jumbotron for a primary marketing message or call to action -->
     <div class="jumbotron">
       <div class="container">
-        <h1>Fraud Prediction</h1>
+        <h1>The model.</h1>
         <p>
-            Our team of expert data scientists took on the task of predicting fraud
-            for a new e-commerce site that provides online hosting for events.
-            Not every hosting request is legitimate. Our task was to utilize machine
-            learning algorithms to better predict fraud from incoming requests.
+            Final model: Random Forest on 7 numerical columns + summary.
         </p>
         <hr>
-        <h2>Exploratory Data Analysis</h2>
-        <p>
-            With __ different features to predict on, it was quickly understood
-            that we needed to narrow this down to the most influential columns.
-        </p>
-        <p>
-            Using a html parser for <u>this and that</u> we were able to utilize
-            the content of each thingy.
-        <hr>
-        <p>
-            A cool graph showing the percentage of fraud grouped by the age of the
-            account.
-        </p>
-        <div class="pics">
-            <img src="../static/img/fraud_over_age.png" alt="fraud_over_age" style='vertical-align: middle;'/>
-        </div>
+        <form action="/score" method='POST'>
+          Payee Name:<br>
+          <input type="text" name="payee_name">
+          <br>
+          User Age:<br>
+          <input type="text" name="user_age">
+          <br>
+          User Type:<br>
+          <input type="text" name="user_type">
+          <br>
+          Name Length:<br>
+          <input type="text" name="name_length">
+          <br>
+          Length of Description:<br>
+          <input type="text" name="body_length">
+          <br>
+          Sale Duration:<br>
+          <input type="text" name="sale_duration2">
+          <br>
+          FB Published (1/0):<br>
+          <input type="text" name="fb_published">
+          <br><br>
+          <input type="submit" value="Submit">
+        </form>
       </div>
     </div>
-
     <div class="container">
       <!-- Example row of columns -->
       <div class="row">
