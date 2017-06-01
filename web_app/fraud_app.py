@@ -1,17 +1,16 @@
 from flask import Flask, render_template, request
 import pickle
 import sys
-import build_model
+from build_model import Model
 import psycopg2
 import socket
 from predict import predict_and_store
 from ping_server import ping
+import requests
 
 app = Flask(__name__)
 PORT = 8080
 REGISTER_URL = "http://galvanize-case-study-on-fraud.herokuapp.com/data_point"
-DATA = []
-TIMESTAMP = []
 
 @app.route('/')
 def index():
