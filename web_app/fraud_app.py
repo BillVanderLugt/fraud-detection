@@ -23,7 +23,7 @@ def problem():
 def model():
     return render_template('model.html')
 
-@app.route('/score', methods=['POST'])
+@app.route('/score_prompt', methods=['POST'])
 def score():
     body_length = request.form['body_length']
     sale_duration2 = request.form['sale_duration2']
@@ -36,7 +36,7 @@ def score():
     record = (body_length,sale_duration2,user_age,name_length,payee_name,user_type,fb_published)
 
     y = predict_and_store(record,model,conn)
-    return render_template('score.html', predicted=y)
+    return render_template('score_prompt.html', predicted=y)
 
 if __name__ == '__main__':
     # unpickle model before app run to establish 'model' in global namespace
