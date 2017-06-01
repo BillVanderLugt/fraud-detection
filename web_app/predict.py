@@ -31,7 +31,7 @@ def predict_and_store(record,model,conn):
             country             CHAR(2),
             currency            CHAR(3),
             delivery_method     FLOAT(8),
-            description         CHAR(5000),
+            description         CHAR(50000),
             email_domain        CHAR(20),
             event_created       INT,
             event_end           INT,
@@ -53,11 +53,11 @@ def predict_and_store(record,model,conn):
             org_twitter         FLOAT(8),
             payee_name          CHAR(20),
             payout_type         CHAR(10),
-            previous_payouts    TEXT,
+            previous_payouts    CHAR(1000),
             sale_duration       FLOAT(8),
             sale_duration2      INT,
             show_map            INT,
-            ticket_types        TEXT,
+            ticket_types        CHAR(1000),
             user_age            INT,
             user_created        INT,
             user_type           INT,
@@ -72,12 +72,13 @@ def predict_and_store(record,model,conn):
         )
 
     # predict on record
-    columns = ['body_length','sale_duration2','user_age','name_length','payee_name','user_type','fb_published']
+    columns = ['body_length','sale_duration2','user_age','name_length','payee_ind','user_type','fb_published']
     X = pd.DataFrame.from_records([record],columns=columns)
     prob_of_fraud = model.predict(X)[0][1]
     with_prediction = tuple(list(record).append(prob_of_fraud))
 
 
+    columns = ['body_length','sale_duration2','user_age','name_length','payee_name','user_type','fb_published']
     # insert record + predicted fraud probability into event_predicts
     c.execute('INSERT INTO event_predicts {} VALUES {}'.format(tuple(columns.append('fraud')),with_prediction))
 

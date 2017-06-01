@@ -5,6 +5,7 @@ import build_model
 import psycopg2
 import socket
 from predict import predict_and_store
+from ping_server import ping
 
 app = Flask(__name__)
 PORT = 8080
@@ -30,12 +31,12 @@ def model():
 
 @app.route('/score', methods=['POST'])
 def score():
-    DATA.append(json.dumps(request.json, sort_keys=True, indent=4, separators=(',', ': ')))
-    TIMESTAMP.append(time.time())
+    record = ping()
+    y = predict_and_store(record)
     return render_template('score_prompt.html', predicted=y)
 
 @app.route('/score_prompt', methods=['POST'])
-def score():
+def score_prompt():
     body_length = request.form['body_length']
     sale_duration2 = request.form['sale_duration2']
     user_age= request.form['user_age']
@@ -44,7 +45,12 @@ def score():
     user_type = request.form['user_type']
     fb_published = request.form['fb_published']
 
-    record = (body_length,sale_duration2,user_age,name_length,payee_name,user_type,fb_published)
+    if len(payee_name) > 0:
+        payee_ind = 1
+    else:
+        payee_ind = 0
+
+    record = (body_length,sale_duration2,user_age,name_length,payee_ind,user_type,fb_published)
 
     y = predict_and_store(record,model,conn)
     return render_template('score_prompt.html', predicted=y)

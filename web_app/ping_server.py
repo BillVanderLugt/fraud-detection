@@ -4,9 +4,9 @@ import pandas as pd
 from build_model import Model, get_data
 import pickle
 
-def predict():
+def ping():
     """
-    Makes request to server hosting rotating data points. Parses the json into features appropriate for our random forest to predict on.
+    Makes request to server hosting rotating data points. Parses the json into features appropriate for our random forest to predict on. Returns tuple containing relevant features for ML model.
     """
     url = 'http://galvanize-case-study-on-fraud.herokuapp.com/data_point'
     resp = requests.get(url)
@@ -20,15 +20,6 @@ def predict():
     user_type = json_data['user_type']
     fb_published = json_data['fb_published']
 
-    X = [body_length, sale_duration2, user_age, name_length, payee_ind, user_type, fb_published]
+    record = (body_length, sale_duration2, user_age, name_length, payee_ind, user_type, fb_published)
 
-    with open('data/pure_rf_model.pkl', 'rb') as f:
-        model = pickle.load(f)
-
-    prob_of_fraud = model.predict(X)[0][1]
-
-    return prob_of_fraud
-
-if __name__ == '__main__':
-    fraud_prob = predict()
-    print('Probability of fraud:', fraud_prob)
+    return record
