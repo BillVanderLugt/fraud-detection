@@ -43,9 +43,9 @@
         border-width: 1px;
     }
         .col {
-    -webkit-columns: 100px 3; /* Chrome, Safari, Opera */
-    -moz-columns: 100px 3; /* Firefox */
-    columns: 100px 3;
+    -webkit-columns: 100px 2; /* Chrome, Safari, Opera */
+    -moz-columns: 100px 2; /* Firefox */
+    columns: 100px 2;
     }
   </style>
     <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -81,6 +81,9 @@
             this exciting addition in a future version!
         </p>
         <hr>
+        <h3> Ping a Server for Random Data</h3>
+        <a class="btn btn-default" href="/score" role="button">Ping Server for Data &raquo;</a>
+        <h3> Enter in Your Own Data</h3>
         <div class="col">
         <form action="/score_prompt" method='POST'>
           Payee Name:<br>
@@ -106,9 +109,7 @@
           <br><br>
           <input type="submit" value="Submit">
         </form>
-        <button type="button" onclick="/score">Ping Server for Data</button>
       </div>
-
     <div class="container">
       <!-- Example row of columns -->
       <div class="row">
