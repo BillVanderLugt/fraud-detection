@@ -20,7 +20,7 @@ def predict_and_store(record,model,conn):
 
     # check if table event_predicts has any records (ie; if it has been created)
     # if not, create the table and its schema
-    c.execute('SELECT * FROM information_schema.tables WHERE table_name=%s',('event_predicts'))
+    c.execute("SELECT * FROM information_schema.tables WHERE table_name='event_predicts'")
     if not c.fetchone()[0]:
         c.execute(
             '''CREATE TABLE event_predicts (
