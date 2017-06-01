@@ -82,7 +82,7 @@ if __name__ == '__main__':
 
     # Register for pinging service
     ip_address = socket.gethostbyname(socket.gethostname())
-    print "attempting to register %s:%d" % (ip_address, PORT)
+    print("attempting to register %s:%d" % (ip_address, PORT))
     register_for_ping(ip_address, str(PORT))
 
     app.run(host='0.0.0.0', port=8080, debug=True)
