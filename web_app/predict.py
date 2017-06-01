@@ -31,7 +31,7 @@ def predict_and_store(record,model,conn):
             country             CHAR(2),
             currency            CHAR(3),
             delivery_method     FLOAT(8),
-            description         CHAR(1000),
+            description         CHAR(50000),
             email_domain        CHAR(20),
             event_created       INT,
             event_end           INT,
