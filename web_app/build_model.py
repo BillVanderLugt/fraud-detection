@@ -10,7 +10,7 @@ from bs4 import BeautifulSoup
 class Model(object):
     def __init__(self):
         """A Random Forest classifier
-            -Fits a Random Forest model to seven of features predicting fraud (1) or not fraud (0).
+            -Fits a Random Forest model to 8 features predicting fraud (1) or not fraud (0). One of the features implements a separate SVC model predicting fraud based on the the event description.
 
         The class implemens fit, predict, score interface.
         """
@@ -50,7 +50,6 @@ class Model(object):
         X['text_prob'] = self._text_classifier(X, y)
         df = pd.concat([X, y], axis=1)
         del df['text']
-        print(X.head())
 
         # under sample to create balanced classes
         fraud = df.loc[df.fraud == 1]
@@ -124,5 +123,5 @@ if __name__ == '__main__':
     model.fit(X, y)
     del X['text']
     print(model.score(X, y))
-    with open('final_model.pkl', 'wb') as f:
+    with open('data/model.pkl', 'wb') as f:
         pickle.dump(model, f)
