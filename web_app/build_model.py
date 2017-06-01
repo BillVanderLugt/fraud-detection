@@ -2,6 +2,10 @@ import random
 import pandas as pd
 import pickle
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
+from sklearn.svm import SVC
+from bs4 import BeautifulSoup
+
 
 class Model(object):
     def __init__(self):
@@ -11,6 +15,24 @@ class Model(object):
         The class implemens fit, predict, score interface.
         """
         self._classifier = RandomForestClassifier(n_estimators=25, random_state=15)
+
+    def _text_classifier(self, X, Y):
+        '''
+        Parameters
+        ----------
+        X: features dataframe
+        y: labels dataframe
+
+        Returns
+        -------
+        fraud_prob: returns prob of fraud based on text analysis
+        '''
+        print('classifying text...')
+        X = X['text']
+        vectX = CountVectorizer(max_df=0.5, ngram_range=(1,2)).fit_transform(X)
+        TfidfX = TfidfTransformer().fit_transform(vectX)
+        probs = SVC(probability=True).fit(TfidfX,Y).predict_proba(TfidfX)
+        return probs[:, 1]
 
     def fit(self, X, y):
         """Fit the Random Forest Model by implementing under-sampling to create balanced classes.
@@ -25,7 +47,10 @@ class Model(object):
         self: The fit model object.
         """
         # join to maintain relativity of features to labels when sampling from classes
+        X['text_prob'] = self._text_classifier(X, y)
         df = pd.concat([X, y], axis=1)
+        del df['text']
+        print(X.head())
 
         # under sample to create balanced classes
         fraud = df.loc[df.fraud == 1]
@@ -76,8 +101,16 @@ def get_data(datafile):
     # feature engineering
     df['payee_ind'] = df['payee_name'].map(lambda x: 1*(len(x) > 0)) # 1 if there's a payee id listed
 
+    # clean text
+    print ('processing text...')
+    text = []
+    for i in df.description:
+        soup = BeautifulSoup(i.strip(), 'lxml')
+        text.append(soup.get_text())
+    df['text'] = text
+
     # features included in Random Forest
-    model_feats = ['body_length', 'sale_duration2', 'user_age', 'name_length', 'payee_ind', 'user_type', 'fb_published']
+    model_feats = ['body_length', 'sale_duration2', 'user_age', 'name_length', 'payee_ind', 'user_type', 'fb_published', 'text']
 
     y = df.pop('fraud')
     X = df[model_feats]
@@ -86,8 +119,10 @@ def get_data(datafile):
 
 
 if __name__ == '__main__':
-    X, y = get_data('/data/data.json')
+    X, y = get_data('data/data.json')
     model = Model()
     model.fit(X, y)
+    del X['text']
+    print(model.score(X, y))
     with open('final_model.pkl', 'wb') as f:
         pickle.dump(model, f)
