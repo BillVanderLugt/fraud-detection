@@ -78,6 +78,7 @@ class Model(object):
         return self._classifier.predict_proba(X)
 
     def score(self, X, y):
+        print ('scoring model...')
         return self._classifier.score(X, y)
 
 def get_data(datafile):
@@ -123,6 +124,6 @@ if __name__ == '__main__':
     model = Model()
     model.fit(X, y)
     del X['text']
-    print(model.score(X, y))
+    print("Training score:", model.score(X, y))
     with open('final_model.pkl', 'wb') as f:
         pickle.dump(model, f)
