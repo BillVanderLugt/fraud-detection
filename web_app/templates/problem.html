@@ -61,6 +61,7 @@
 
     <!-- Main jumbotron for a primary marketing message or call to action -->
     <div class="jumbotron">
+    </div>
       <div class="container">
         <h1>Fraud Prediction</h1>
         <p>
@@ -72,36 +73,49 @@
         <hr>
         <h2>Exploratory Data Analysis</h2>
         <p>
-            With __ different features to predict on, it was quickly understood
+            With 45 different features to predict on, it was quickly understood
             that we needed to narrow this down to the most influential columns.
+            It was believed that the numerical columns would be the most influential
+            so we began running simple analysis on just these values.
         </p>
         <p>
-            Using a html parser for <u>this and that</u> we were able to utilize
-            the content of each thingy.
-        <hr>
-        <p>
-            A cool graph showing the percentage of fraud grouped by the age of the
-            account.
+            A few important features dominated our EDA and we decided to move forward
+            with a list of the top 7. One of the more intuitive features was age
+            of user (how long this user has been with registered with the company).
+            Below we graphed the percentage of fraud over the age of the user.
         </p>
         <div class="pics">
             <img src="../static/img/fraud_over_age.png" alt="fraud_over_age" style='vertical-align: middle;'/>
         </div>
+        <p>
+            As depicted above, the majority of our cases of fraud occur with the
+            most recently created accounts. This makes sense, as these accounts
+            are typically created for the sole purpose of making fraudulent events.
+            The spikes shown with higher user age are an indication that those
+            user accounts could have been hacked. These older cases of fraud will
+            be harder to predict and rely more heavily on other features.
+        </p>
+        <hr>
+        <h2>Natural Language Processing</h2>
+        <p>
+            The obvious non-numerical column to use in our predictions was the
+            description. Fraudulent events will most likely have information here
+            which makes them easily identifiable as fraud. This may be the use of
+            all capitol letters, certain key phrases, or even a non-sensical
+            description. Utilizing natural language processing we began running
+            models on this feature to pull out certain patterns to help predict
+            fraud along-side the numerical features.
+        </p>
       </div>
-    </div>
 
     <div class="container">
       <!-- Example row of columns -->
       <div class="row">
         <div class="col-md-4">
           <h2>Model</h2>
-          <p>The various models we used to predict fraud on new data. </p>
+          <p>Using a Random Forest machine learning model, predict fradulent event behavior based on either data from a defined server, or user inputted data. </p>
           <p><a class="btn btn-default" href="/model" role="button">View details &raquo;</a></p>
        </div>
-        <div class="col-md-4">
-          <h2>Conclusion</h2>
-          <p>Analisys of our results. </p>
-          <p><a class="btn btn-default" href="/conclusion" role="button">View details &raquo;</a></p>
-        </div>
       </div>
 
       <hr/>

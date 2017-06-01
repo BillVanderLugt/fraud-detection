@@ -42,6 +42,11 @@
         border-style: inset;
         border-width: 1px;
     }
+        .col {
+    -webkit-columns: 100px 2; /* Chrome, Safari, Opera */
+    -moz-columns: 100px 2; /* Firefox */
+    columns: 100px 2;
+    }
   </style>
     <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container">
@@ -61,12 +66,25 @@
 
     <!-- Main jumbotron for a primary marketing message or call to action -->
     <div class="jumbotron">
+    </div>
       <div class="container">
-        <h1>The model.</h1>
+        <h1>The Model</h1>
         <p>
-            Final model: Random Forest on 7 numerical columns + summary.
+            Our final model utilizes a Random Forest to predict on the numerical
+            features. Due to the fradulent class only representing ~10% of the data,
+            we employed the method of undersampling to help balance this.
+            The model provides us with an F1 score (the harmonic
+            mean between percision and recall) of .89.
+            While we conducted extensive work into the realm of
+            natural language processing (F1 score of .92!), we were unable to
+            utilize this feature in our model when launching this app. Look for
+            this exciting addition in a future version!
         </p>
         <hr>
+        <h3> Ping a Server for Random Data</h3>
+        <a class="btn btn-default" href="/score" role="button">Ping Server for Data &raquo;</a>
+        <h3> Enter in Your Own Data</h3>
+        <div class="col">
         <form action="/score_prompt" method='POST'>
           Payee Name:<br>
           <input type="text" name="payee_name">
@@ -92,7 +110,6 @@
           <input type="submit" value="Submit">
         </form>
       </div>
-    </div>
     <div class="container">
       <!-- Example row of columns -->
       <div class="row">
@@ -101,11 +118,6 @@
             <p>As more and more people look to the secondary market for event tickets, preventing fraudulent activity becomes increasingly important to protect both the user, as well as the reputation of the marketplace.  We are tasked with reliably predicting fraud, with an end-goal of preventing fraudulent transactions before they can take place. </p>
             <p><a class="btn btn-default" href="/problem" role="button">View details &raquo;</a></p>
        </div>
-        <div class="col-md-4">
-          <h2>Conclusion</h2>
-          <p>Analisys of our results. </p>
-          <p><a class="btn btn-default" href="/conclusion" role="button">View details &raquo;</a></p>
-        </div>
       </div>
 
       <hr/>
