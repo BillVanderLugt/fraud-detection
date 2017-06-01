@@ -21,7 +21,7 @@ def predict_and_store(record,model,conn):
     # check if table event_predicts has any records (ie; if it has been created)
     # if not, create the table and its schema
     c.execute("SELECT * FROM information_schema.tables WHERE table_name='event_predicts'")
-    if not c.fetchone()[0]:
+    if not c.fetchone():
         c.execute(
             '''CREATE TABLE event_predicts (
             acct_type           CHAR(20),
@@ -75,12 +75,15 @@ def predict_and_store(record,model,conn):
     columns = ['body_length','sale_duration2','user_age','name_length','payee_ind','user_type','fb_published']
     X = pd.DataFrame.from_records([record],columns=columns)
     prob_of_fraud = model.predict(X)[0][1]
-    with_prediction = tuple(list(record).append(prob_of_fraud))
+    rec_list = list(record)
+    rec_list.append(prob_of_fraud)
+    with_prediction = tuple(rec_list)
 
 
     columns = ['body_length','sale_duration2','user_age','name_length','payee_name','user_type','fb_published']
+    columns.append('fraud')
     # insert record + predicted fraud probability into event_predicts
-    c.execute('INSERT INTO event_predicts {} VALUES {}'.format(tuple(columns.append('fraud')),with_prediction))
+    c.execute('INSERT INTO event_predicts (body_length,sale_duration2,user_age,name_length,payee_name,user_type,fb_published,fraud) VALUES {}'.format(with_prediction))
 
     # commit changes to the database
     conn.commit()
