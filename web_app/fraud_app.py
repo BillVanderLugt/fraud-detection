@@ -30,10 +30,15 @@ def model_predict():
     fb_published = request.form['fb_published']
 
     X = 0
-    with open('../model/final_model.pkl', 'rb') as pickle_file:
-        model = pickle.load(pickle_file)
     y = model.predict(X)
+    
     return y
 
 if __name__ == '__main__':
+    with open('../model/final_model.pkl', 'rb') as pickle_file:
+        model = pickle.load(pickle_file)
+
+    conn = psycopg2.connect(dbname='eventdata', user='postgres', password='password', host='localhost')
+    c = conn.cursor()
+
     app.run(host='0.0.0.0', port=8080, debug=True)
