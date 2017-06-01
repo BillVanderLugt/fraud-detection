@@ -1,34 +1,42 @@
-For the next two days we will deal with the entire end to end pipeline of data science through a case study.  We have touched on aspects of this throughout the course but have not yet put all the pieces together.
+#### Fraud Detection Case Study
 
-We will also touch on some new topics including:
-* cloud services including AWS
-* web applications (and the technology of the web)
-* deploying a DS application
-* a touch of data visualization/presentation
+In this project, we were tasked with predicting fraud for an event management
+company. Given an extensive data set on past events booked through this company,
+we worked to classify these bookings as either fraudulent or not based on the
+previously determined account type.
 
-#### Themes (you will be assessed on this)
+Using a Random Forest model, we train on this provided data in order to predict
+on future unseen data.
 
-* Software best practices (proper encapsulation and functions)
-* product focus
-* deploy models
-* project scoping -- independence
+#### Feature Importance
 
-#### Rough timeline 
+Looking through the original data, we decided to first focus on only the
+numerical columns. The ones of most importance were:
 
-* Wednesday: Project scoping, Model building, and an intro to Web apps
-* Thursday: Web app and deployment
+* body_length
+* sale_duration2
+* user_age
+* name_length
+* payee_name
+* user_type
+* fb_published
 
-#### Deliverables
+Knowing the score on our predictions could increase through analyzing the
+vocabulary used in the description, we began implementing natural language
+processing while also running our numerical columns through a model.
 
-* model (properly commented and encapsulated on Github with a README)
-* exposed API
-* Data visualization (extra)
+#### Model
 
-#### Assessment
+The final model used for our fraud predictions is a Random Forest, utilizing
+only the 7 numerical features listed above. We hoped to use our natural
+language processing to feature engineer a new column of the probability of fraud
+based on the vocabulary in the description.
 
-* You will be assessed both on quality and cleanliness of code
-* as well as a well functioning solution
+#### Web App
 
-#### Notes
-
-* [building your model](model_notes.md): notes on how to get started with the dataset and how to save your model once you've trained it.
+Our model can be run on new data through a convenient wed application hosted on
+an EC2 instance on AWS. On this we have included descriptions of the various
+steps in our process along with two separate ways to make a prediction via our
+model. You may either ping an existing server for a random data point, or
+manually input values for the numerical fields of our model. These data points
+and predictions will then be stored in a postgres database on the instance.
