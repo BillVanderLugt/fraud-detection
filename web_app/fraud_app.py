@@ -1,8 +1,7 @@
 from flask import Flask, render_template, request
 import pickle
 import sys
-sys.path.append('../model')
-import final_model
+import build_model
 import psycopg2
 from predict import predict_and_store
 
@@ -41,7 +40,7 @@ def score():
 
 if __name__ == '__main__':
     # unpickle model before app run to establish 'model' in global namespace
-    with open('../model/final_model.pkl', 'rb') as pickle_file:
+    with open('data/pure_rf_model.pkl', 'rb') as pickle_file:
         model = pickle.load(pickle_file)
     # ...and do the same with psql connection 'conn'
     conn = psycopg2.connect(dbname='eventdata', user='postgres', host='localhost',password='password')
