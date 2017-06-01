@@ -28,10 +28,10 @@ def problem():
 def model():
     return render_template('model.html')
 
-@app.route('/score', methods=['POST'])
+@app.route('/score', methods=['GET','POST'])
 def score():
     record = ping()
-    y = predict_and_store(record)
+    y = predict_and_store(record,model,conn)
     return render_template('score_prompt.html', predicted=y)
 
 @app.route('/score_prompt', methods=['POST'])
